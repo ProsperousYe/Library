@@ -3,3 +3,14 @@
 //
 
 #include "visitor.h"
+void register_an_account(){
+
+}
+
+void login(){
+
+}
+
+void quit(){
+
+}

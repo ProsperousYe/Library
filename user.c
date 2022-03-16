@@ -3,3 +3,22 @@
 //
 
 #include "user.h"
+void borrow_a_book(){
+
+}
+
+void return_a_book(){
+
+}
+
+void search_for_books(){
+
+}
+
+void display_all_books(){
+
+}
+
+void log_out(){
+
+}
