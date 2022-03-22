@@ -3,9 +3,11 @@
 //
 #include <stdio.h>
 #include "librarian.h"
+#include "book_management.h"
 
-void add_a_book(){
-    struct Book new_book;
+void add_a_book(booklist){
+    Book* new_book;
+     CreateBookNode(new_book);
     unsigned int id;
     char *title;
     char *authors;
@@ -14,17 +16,17 @@ void add_a_book(){
     printf("please input the title:");
     scanf("%s",&title);
     printf("please input the author:");
-    scanf("%s",&author);
+    scanf("%s",&authors);
     printf("please input the year:");
     scanf("%d",&year);
     printf("please input the copies:");
     scanf("%d",&copies);
-    new_book.title = title;
-    new_book.author = author;
-    new_book.year = year;
-    new_book.copies = copies;
-    new_book.id = id;
-    add_book(new_book);
+    new_book->title = title;
+    new_book->authors = authors;
+    new_book->year = year;
+    new_book->copies = copies;
+    new_book->id = id;
+    add_book(new_book,booklist);
 }
 
 void remove_a_book(){

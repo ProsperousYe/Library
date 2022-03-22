@@ -4,13 +4,17 @@
 
 #include "visitor.h"
 void register_an_account(){
-
+    printf("please input the username:");
+    scanf("%c\n", currentuser->username);
+    printf("please input the password:");
+    scanf("%c\n", currentuser->password);
 }
 
-void login(){
-
+void visitor_login(CurrentUser* currentuser, Book* booklist, Book* borrowedlist, User* userlist, int login){
+    login = 1;
+    interface(interface(currentuser, userlist, borrowedlist, userlist, login);
 }
 
 void quit(){
-
+    exit();
 }

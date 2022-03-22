@@ -6,7 +6,7 @@
   You are also free to add additional head files and data structures as needed.
 */
 
-
+#include <stdio.h>
 typedef struct _Book {
 	    unsigned int id; //Book ID
 		char *title; //book title
@@ -19,7 +19,7 @@ typedef struct _Book {
 typedef struct _BookList {
 	 Book* list; // pointer to a list of struct Book.
 	 unsigned int length; // number of elements in the (Book*) List
-}BookList;
+} BookList;
 
 
 //saves the database of books in the specified file
@@ -33,29 +33,29 @@ int load_books(FILE *file);
 
 //adds a book to the ones available to the library
 //returns 0 if the book could be added, or an error code otherwise
-int add_book(Book book);
+int add_book(Book* booklist, Book* targetbook);
 
 //removes a book from the library
 //returns 0 if the book could be successfully removed, or an error code otherwise.
-int remove_book(Book book);
+int remove_book(Book* booklist, Book* targetbook);
 
 //finds books with a given title.
 //returns a BookList structure, where the field "list" is a list of books, or null if no book with the
 //provided title can be found. The length of the list is also recorded in the returned structure, with 0 in case
 //list is the NULL pointer.
-BookList find_book_by_title (const char *title);
+void find_book_by_title (Book* booklist, char title[40]);
 
 //finds books with the given authors.
 //returns a Booklist structure, where the field "list" is a newly allocated list of books, or null if no book with the
 //provided title can be found. The length of the list is also recorded in the returned structure, with 0 in case
 //list is the NULL pointer.
-BookList find_book_by_author (const char *author);
+void find_book_by_author (Book* booklist, char authors[40]);
 
 //finds books published in the given year.
 //returns a Booklist structure, where the field "list" is a list of books, or null if no book with the
 //provided title can be found. The length of the list is also recorded in the returned structure, with 0 in case
 //list is the NULL pointer.
-BookList find_book_by_year (unsigned int year);
+void find_book_by_year (Book* booklist, unsigned int year);
 
 
 #endif

@@ -6,15 +6,21 @@
 #define LIBRARY_USER_H
 
 typedef struct _User {
-    char *password;
-    char *username;
-    struct node *next;
+    char password[40];
+    char username[40];
+    struct _User *next;
 } User;
 
-typeof struct _UserList {
+typedef struct _UserList {
    User* list; // pointer to a list of struct User.
    unsigned int length;
 } UserList;
+
+typedef struct _CurrentUser{
+	char password[40];
+	char username[40];
+	int role;
+} CurrentUser;
 
 
 void borrow_a_book();

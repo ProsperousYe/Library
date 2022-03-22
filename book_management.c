@@ -11,15 +11,15 @@ int load_books(FILE *file){
 
 }
 
-int add_book(Book book){
-    struct Book* current = library.list->next;
-    while(1){
-        if(current != NULL) {
+int add_book(Book* booklist, Book* new_book){
+    Book* current = booklist->next;
+    while(current->next){
+        if(current->next != NULL) {
             current = current->next;
             continue;
         } else {
-            current = &book;
-            book.next = NULL;
+            current = new_book;
+            new_book->next = NULL;
             return 0;
         }
     }
@@ -27,98 +27,62 @@ int add_book(Book book){
 }
 
 
-int remove_book(Book book){
-    struct Book* current = library.list->next;
-    struct Book* previews = library.list;
-    while(1){
-        if(current != book.next){
+int remove_book(Book* booklist, Book* targetbook){
+    Book* current = booklist->next;
+    Book* previews = booklist;
+    while(current->next){
+        if(current != targetbook){
             current = current->next;
             previews = previews->next;
             continue;
         } else {
-            DeleteNode(previews);
-            previews = book.next;
+		previews = previews->next;
+		DeleteNode(targetbook);
             return 0;
         }
     }
     return 1;
 }
 
-BookList find_book_by_title(const char *title){
-    struct BookList books_title;
-    struct Book *book;
-    struct Book* current = library.list->next;
-    CreatBookNode(books_title.list);
-    books_title.list->next = NULL;
-    while(current){
+void find_book_by_title(Book* booklist, char title[40]){
+    Book* current = booklist->next;
+    printf("id\ttitle\tauthor\tyear\tcopies\n");
+    while(current->next){
         if(!strcmp(current->title,title)){
             current = current->next;
             continue;
         } else {
-            CreateBookNode(book);
-            book->title = current->title;
-            book->authors = current->authors;
-            book->copies = current->copies;
-            book->id = current->id;
-            book->year = current->year;
-            book->next = books_title.list->next;
-            books_title.list->next = book;
-            current = current->next;
+        	printf("%d\t%c\t%c\t%d\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
             continue;
         }
     }
-    return books;
 }
 
-BookList find_book_by_author(const char *author){
-    struct BookList books_author;
-    struct Book *book;
-    struct Book* current = library.list->next;
-    CreatBookNode(books_author.list);
-    books_author.list->next = NULL;
-    while(current){
-        if(!strcmp(current->author,author)){
+void find_book_by_author(Book* booklist, char authors[40]){
+    Book* current = booklist->next;
+    printf("id\ttitle\tauthor\tyear\tcopies\n");
+    while(current->next){
+        if(!strcmp(current->authors,authors)){
             current = current->next;
             continue;
         } else {
-            CreateBookNode(book);
-            book->title = current->title;
-            book->authors = current->authors;
-            book->copies = current->copies;
-            book->id = current->id;
-            book->year = current->year;
-            book->next = books_author.list->next;
-            books_author.list->next = book;
-            current = current->next;
+        	printf("%d\t%c\t%c\t%d\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
             continue;
         }
     }
-    return books;
 
 }
 
-BookList find_book_by_year(unsigned int year){
-    struct BookList books_year;
-    struct Book *book;
-    struct Book* current = library.list->next;
-    CreatBookNode(books_year.list);
-    books_year.list->next = NULL;
-    while(current){
+void find_book_by_year(Book* booklist, unsigned int year){
+    Book* current = booklist->next;
+    printf("id\ttitle\tauthor\tyear\tcopies\n");
+    while(current->next){
         if(current->year != year){
             current = current->next;
             continue;
         } else {
-            CreateBookNode(book);
-            book->title = current->title;
-            book->authors = current->authors;
-            book->copies = current->copies;
-            book->id = current->id;
-            book->year = current->year;
-            book->next = books_year.list->next;
-            books_year.list->next = book;
-            current = current->next;
+        	printf("%d\t%c\t%c\t%d\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
             continue;
         }
     }
-    return books;
 }

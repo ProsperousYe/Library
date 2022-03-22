@@ -7,7 +7,7 @@
 
 void register_an_account();
 
-void login();
+void login(int login);
 
 void quit();
 #endif //LIBRARY_VISITOR_H

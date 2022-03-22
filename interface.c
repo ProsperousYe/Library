@@ -3,16 +3,19 @@
 //
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "interface.h"
 #include "user.h"
 #include "visitor.h"
 #include "librarian.h"
+#include "book_management.h"
 
 
-int show_menu_login(char username[40]){
+int show_menu_login(char username[40], int role){
     int option;
     printf("(Logged in as: %c\n)", username);
-    if (!strcmp("librarian", username)) {
+    if (!strcmp(username, "librarian")) {
+	role = 1;
         printf("Please choose an option:\n");
         printf("1) Borrow a book\n");
         printf("2) Return a book\n");
@@ -25,9 +28,10 @@ int show_menu_login(char username[40]){
             return option;
         } else {
             printf("\nSorry, the option you entered was invalid, please try again.");
-            show_menu_login(username);
+            show_menu_login(username, role);
         }
     } else {
+	role = 2;
         printf("Please choose an option:\n");
         printf("1) Add a book\n");
         printf("2) Remove a book\n");
@@ -40,7 +44,7 @@ int show_menu_login(char username[40]){
             return option;
         } else {
             printf("\nSorry, the option you entered was invalid, please try again.");
-            show_menu_login(username);
+            show_menu_login(username, role);
         }
     }
 }
@@ -63,11 +67,11 @@ int show_menu_not_login(){
     }
 }
 
-void interface(){
+void interface(CurrentUser* currentuser, Book* booklist, Book* borrowedlist, User* userlist,int login){
     if(login){
-        switch(show_menu_not_login()){
+        switch(show_menu_login(currentuser->username, currentuser->role)){
             case 1:
-                if(strcmp("librarian",username)){
+                if(currentuser->role == 2){
                     add_a_book();
                     break;
                 } else {
@@ -75,29 +79,29 @@ void interface(){
                     break;
                 }
             case 2:
-                if(strcmp("librarian",username)){
+                if(currentuser->role == 2){
                     remove_a_book();
                     break;
                 } else {
                     return_a_book();
                     break;
                 }
-            case 3:search_for_books();
+            case 3:search_for_books(booklist);
                 break;
-            case 4:display_all_books();
+            case 4:display_all_books(booklist);
                 break;
-            case 5:log_out(); //将log状态改为0，并且调用show_menu_not_login（）
+            case 5:log_out(currentuser, booklist, borrowedlist, userlist, login); //将log状态改为0，并且调用show_menu_not_login（）
                 break;
         }
     } else {
         switch(show_menu_not_login()){
             case 1:register_an_account();
                 break;
-            case 2:login(); //输入账号密码，验证后，将log状态改为1，并且调用show_menu_login（）
+            case 2:visitor_login(currentuser, booklist, borrowedlist, userlist, login); //输入账号密码，验证后，将log状态改为1，并且调用show_menu_login（）
                 break;
-            case 3:search_for_books();
+            case 3:search_for_books(booklist);
                 break;
-            case 4:display_all_books();
+            case 4:display_all_books(booklist);
                 break;
             case 5:quit(); //退出系统
                 break;
