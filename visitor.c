@@ -3,19 +3,25 @@
 //
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "visitor.h"
 #include "user.h"
 #include "book_management.h"
 void register_an_account(UserList* userlist){
-    char c_password[40];
+    char c_password[100];
+    char temp[100];
     while(1){
 	    User* currentuser =(User *)malloc(sizeof(User));
 	    printf("please input the username:");
-	    scanf("%c\n", currentuser->username);
+	    scanf("%s\n", temp);
+	    currentuser->username = (char *)malloc(sizeof(strlen(temp)));
+	    strcpy(currentuser->username, temp);
 	    printf("please input the password:");
-	    scanf("%c\n", currentuser->password);
+	    scanf("%s\n", temp);
+	    currentuser->password = (char *)malloc(sizeof(strlen(temp)));
+	    strcpy(currentuser->password, temp);
 	    printf("please confirm your password:");
-	    scanf("%c\n", c_password);
+	    scanf("%s\n", c_password);
 	    if(!strcmp(currentuser->password, c_password)){
 		printf("the confirm password is not correct, please re-input:");
 		free((void *)currentuser);	
@@ -33,18 +39,20 @@ void register_an_account(UserList* userlist){
 		printf("Welcome to this Library system:)");
 		break;
 	}
+
     }
-     
 }
 
 void visitor_login(User* currentuser,UserList* userlist, int login){
-	User* current = userlist->list->next;//compare the user imformation!
+	User* current = userlist->list->next;
+	char temp_username[100];
+	char temp_password[100];
 	printf("please input the username:");
-	scanf("%c\n", currentuser->username);
+	scanf("%s\n", temp_username);
 	printf("please input the password:");
-	scanf("%c\n", currentuser->password);
-	while(current->next){
-		if(strcmp(current->username, currentuser->username) && strcmp(current->password, currentuser->password)){
+	scanf("%s\n", temp_password);
+	while(current->next != NULL){
+		if(strcmp(temp_username, current->username) && strcmp(temp_password, current->password)){
 			currentuser = current;
 			login = 1;
 			return;

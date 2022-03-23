@@ -3,17 +3,29 @@
 #include <stdlib.h>
 #include <string.h>
 
-int store_books(FILE *file){
-
+int store_books(FILE *file, BookList *booklist){
+	Book* current = booklist->list->next;
+	while(current->next != NULL){
+		fprintf(file,"%d\t%s\t%s\t%d\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
+		current = current->next;
+	}
+	return 0;
 }
 
-int load_books(FILE *file){
-
+int load_books(FILE *file, BookList* booklist){
+	Book* new_book;
+	while(1){
+		if(feof(file))break;
+		new_book=(Book *)malloc(sizeof(Book));
+		fscanf(file,"%d\t%s\t%s\t%d\t%d\n",new_book->id, new_book->title, new_book->authors, new_book->year, new_book->copies);
+		add_book(booklist->list, new_book);
+	}
+	return 0;
 }
 
 int add_book(Book* booklist, Book* new_book){
     Book* current = booklist->next;
-    while(current->next){
+    while(1){
         if(current->next != NULL) {
             current = current->next;
             continue;
@@ -23,7 +35,6 @@ int add_book(Book* booklist, Book* new_book){
             return 0;
         }
     }
-    return 1;
 }
 
 
@@ -52,7 +63,7 @@ void find_book_by_title(Book* booklist, char title[40]){
             current = current->next;
             continue;
         } else {
-        	printf("%d\t%c\t%c\t%d\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
+        	printf("%d\t%s\t%s\t%d\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
             continue;
         }
     }
@@ -66,7 +77,7 @@ void find_book_by_author(Book* booklist, char authors[40]){
             current = current->next;
             continue;
         } else {
-        	printf("%d\t%c\t%c\t%d\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
+        	printf("%d\t%s\t%s\t%d\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
             continue;
         }
     }
@@ -81,7 +92,7 @@ void find_book_by_year(Book* booklist, unsigned int year){
             current = current->next;
             continue;
         } else {
-        	printf("%d\t%c\t%c\t%d\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
+        	printf("%d\t%s\t%s\t%d\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
             continue;
         }
     }

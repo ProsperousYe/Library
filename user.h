@@ -6,8 +6,8 @@
 #define LIBRARY_USER_H
 
 typedef struct _User {
-    char password[40];
-    char username[40];
+    char *password;
+    char *username;
     int role;
     struct _User *next;
     //struct BookList *borrowedbooks;
@@ -18,7 +18,9 @@ typedef struct _UserList {
    unsigned int length;
 } UserList;
 
+void store_users();
 
+void load_users();
 
 void borrow_a_book();
 
