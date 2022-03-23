@@ -11,5 +11,5 @@ int show_menu_login(char username[40], int role);
 
 int show_menu_not_login();
 
-void interface(CurrentUser* currentuser, Book* booklist, Book* borrowedlist, User* userlist, int login);
+void interface(User* currentuser, BookList* booklist, BookList* borrowedlist, UserList* userlist, int login);
 #endif //LIBRARY_INTERFACE_H

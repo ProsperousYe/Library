@@ -1,6 +1,3 @@
-#define CreateBookNode(p) p=(Book *)malloc(sizeof(Book));
-#define CreateUserNode(p) p=(User *)malloc(sizeof(User));
-#define DeleteNode(p) free((void *)p);
 #include <stdio.h>
 #include <stdlib.h>
 #include "interface.h"
@@ -11,13 +8,13 @@
 //change to user the struct CurrentUser to record the current user info
 
 int main(){
-	CurrentUser* currentuser = (CurrentUser*)malloc(sizeof(CurrentUser));
-	Book* booklist = (Book*)malloc(sizeof(Book));
-	Book* borrowedlist = (Book*)malloc(sizeof(Book));
-	User* userlist = (User*)malloc(sizeof(User));
-	int login = 0;
+	User* currentuser = (User*)malloc(sizeof(User));
+	BookList* booklist = (BookList*)malloc(sizeof(BookList));
+	BookList* borrowedlist = (BookList*)malloc(sizeof(BookList));
+	UserList* userlist = (UserList*)malloc(sizeof(UserList));
+	int login = 0; //initialize
     	interface(currentuser, booklist, borrowedlist, userlist, login);
-	free(currentuser);
+	free(currentuser); //colsing the system
 	free(booklist);
 	free(borrowedlist);
 	free(userlist);

@@ -37,7 +37,7 @@ int remove_book(Book* booklist, Book* targetbook){
             continue;
         } else {
 		previews = previews->next;
-		DeleteNode(targetbook);
+		free((void *)targetbook);
             return 0;
         }
     }

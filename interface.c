@@ -67,43 +67,42 @@ int show_menu_not_login(){
     }
 }
 
-void interface(CurrentUser* currentuser, Book* booklist, Book* borrowedlist, User* userlist,int login){
+void interface(User* currentuser, BookList* booklist, BookList* borrowedlist, UserList* userlist, int login){
     if(login){
         switch(show_menu_login(currentuser->username, currentuser->role)){
             case 1:
                 if(currentuser->role == 2){
-                    add_a_book();
-                    break;
+                    add_a_book(booklist);
+			interface(currentuser, booklist, borrowedlist, userlist, login);
                 } else {
-                    borrow_a_book();
-                    break;
+                    borrow_a_book(booklist, borrowedlist);
+			interface(currentuser, booklist, borrowedlist, userlist, login);
                 }
             case 2:
                 if(currentuser->role == 2){
-                    remove_a_book();
-                    break;
+                    remove_a_book(booklist);
+			interface(currentuser, booklist, borrowedlist, userlist, login);
                 } else {
-                    return_a_book();
-                    break;
+                    return_a_book(booklist, borrowedlist);
+			interface(currentuser, booklist, borrowedlist, userlist, login);
                 }
             case 3:search_for_books(booklist);
-                break;
+			interface(currentuser, booklist, borrowedlist, userlist, login);
             case 4:display_all_books(booklist);
-                break;
-            case 5:log_out(currentuser, booklist, borrowedlist, userlist, login); //将log状态改为0，并且调用show_menu_not_login（）
-                break;
+			interface(currentuser, booklist, borrowedlist, userlist, login);
+            case 5: interface(currentuser, booklist, borrowedlist, userlist, 0);                
         }
     } else {
         switch(show_menu_not_login()){
-            case 1:register_an_account();
-                break;
-            case 2:visitor_login(currentuser, booklist, borrowedlist, userlist, login); //输入账号密码，验证后，将log状态改为1，并且调用show_menu_login（）
-                break;
+            case 1:register_an_account(userlist);
+			interface(currentuser, booklist, borrowedlist, userlist, login);
+            case 2:visitor_login(currentuser, userlist, login); //输入账号密码，验证后，将log状态改为1，并且调用show_menu_login（）
+			interface(currentuser, booklist, borrowedlist, userlist, login);               
             case 3:search_for_books(booklist);
-                break;
+			interface(currentuser, booklist, borrowedlist, userlist, login);
             case 4:display_all_books(booklist);
-                break;
-            case 5:quit(); //退出系统
+			interface(currentuser, booklist, borrowedlist, userlist, login);
+            case 5: //退出系统
                 break;
         }
     }

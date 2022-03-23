@@ -8,7 +8,9 @@
 typedef struct _User {
     char password[40];
     char username[40];
+    int role;
     struct _User *next;
+    //struct BookList *borrowedbooks;
 } User;
 
 typedef struct _UserList {
@@ -16,11 +18,6 @@ typedef struct _UserList {
    unsigned int length;
 } UserList;
 
-typedef struct _CurrentUser{
-	char password[40];
-	char username[40];
-	int role;
-} CurrentUser;
 
 
 void borrow_a_book();
@@ -31,5 +28,4 @@ void search_for_books();
 
 void display_all_books();
 
-void log_out();
 #endif //LIBRARY_USER_H
