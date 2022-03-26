@@ -25,8 +25,14 @@ void add_a_book(BookList* booklist){
     scanf("%d",new_book->year);
     printf("please input the copies:");
     scanf("%d",new_book->copies);
-    if(add_book(booklist->list, new_book) == 0)
-    booklist->length ++;
+    //new_book->avaliablestatement = 0;
+    new_book->currentborroweduser = NULL;
+    new_book->next = NULL;
+    //new_book->borrowedlistnext = NULL;
+    if(add_book(booklist->list, new_book) == 0) {
+	booklist->length ++;
+	print("Add book successfully!");	
+    } else printf("Add book failed! please try again:(");
 }
 
 void remove_a_book(BookList* booklist){

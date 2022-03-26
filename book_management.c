@@ -6,7 +6,12 @@
 int store_books(FILE *file, BookList *booklist){
 	Book* current = booklist->list->next;
 	while(current->next != NULL){
-		fprintf(file,"%d\t%s\t%s\t%d\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
+		fprintf(file, "%d\n", current->id);
+		fputs(current->title, file);
+		fputs(current->authors, file);
+		fprintf(file, "%d\n", current->years);
+		fprintf(file, "%d\n", current->copies);
+		fputs(current->currentborroweduser, file);
 		current = current->next;
 	}
 	return 0;
@@ -14,10 +19,14 @@ int store_books(FILE *file, BookList *booklist){
 
 int load_books(FILE *file, BookList* booklist){
 	Book* new_book;
-	while(1){
-		if(feof(file))break;
+	while(getc(file) != EOF){
 		new_book=(Book *)malloc(sizeof(Book));
-		fscanf(file,"%d\t%s\t%s\t%d\t%d\n",new_book->id, new_book->title, new_book->authors, new_book->year, new_book->copies);
+		fscanf(file, "%d\n", &current->id);
+		fgets(current->title, file);
+		fgets(current->authors, file);
+		fscanf(file, "%d\n", &current->years);
+		fscanf(file, "%d\n", &current->copies);
+		fgets(current->currentborroweduser, file);
 		add_book(booklist->list, new_book);
 	}
 	return 0;

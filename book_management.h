@@ -14,10 +14,10 @@ typedef struct _Book {
 		char *authors; //comma separated list of authors
 		unsigned int year; // year of publication
 		unsigned int copies; //number of copies the library has
-		unsigned int avaliable_statement; //if the book is avaiable to borrow
-		struct _User *currentborroweduser; //the user who is keeping this book 
+		//unsigned int avaliable_statement; //if the book is avaiable to borrow
+		char *currentborroweduser; //the user who is keeping this book 
 		struct _Book *next; //pointer to the next book element
-		struct _Book *borrowedlist_next; //pointer to the next borrowed book
+		//struct _Book *borrowedlist_next; //pointer to the next borrowed book
 		//struct _Book *avaliablelist_next; //pointer to the next avaiable book
 } Book;
 
