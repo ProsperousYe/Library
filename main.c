@@ -19,21 +19,29 @@ int main(int argc, char* argv[]){
 	booklist->list                = bookheader;				//let the head pointer point to the first empty node
 	bookheader->next              = NULL;					//let the first empty node next point to NULL, means the end of linked list
 	borrowedlist->list            = borrowedheader;
-	borrowedheader->borrowedlist_next = NULL;
+	borrowedheader->next	     = NULL;
 	userlist->list                = userheader;
 	userheader->next              = NULL;
+	currentuser			     = NULL;
 	int login                     = 0;						//initialize the login statement
-    	interface(currentuser, booklist, borrowedlist, userlist, login);	//enter the main menu
+	load_books(bookfile, booklist);
+	load_books(loanfile, borrowedlist);
+	load_users(userfile, userlist);
+    	interface(currentuser, booklist, borrowedlist, userlist, login);
+	store_books(bookfile, booklist);
+	store_books(loanfile, borrowedlist);
+	store_users(userfile, userlist);
 	fclose(bookfile);									//closing the files
 	fclose(userfile);
-	fclose(loanfile);	
-	free(bookheader);									//free the space of head pionters
-	free(borrowedheader);
-	free(userheader);
-	free(currentuser);								//free the space of linked lists
-	free(booklist);
-	free(borrowedlist);
-	free(userlist);
+	fclose(loanfile);
+	booklist->list = NULL;
+	borrowedlist->list = NULL;
+	userlist->list = NULL;
+	free((void *)bookheader);									//free the space of head pionters
+	free((void *)borrowedheader);
+	free((void *)userheader);
+	free((void *)currentuser);	
+							//free the space of linked lists
     	return 0;
 }
 

@@ -5,6 +5,46 @@
 #include "user.h"
 #include "visitor.h"
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+void store_users(FILE *file, UserList *userlist){
+		User* temp;
+		User* current = userlist->list->next;
+	while(current->next != NULL){
+		fputs(current->username,file);
+		fputs(current->password,file);
+		fprintf(file, "%d\n", current->role);
+		temp = current->next;
+		free((void *)current);
+		current = temp;
+	}
+	return;
+}
+
+void load_users(FILE *file, UserList *userlist){
+	while(getc(file) != EOF){
+		User* new_user=(User *)malloc(sizeof(User));
+		fgets(new_user->username, 40,file);
+		fgets(new_user->password, 40,file);
+		fscanf(file, "%d\n", &new_user->role);
+		add_user(userlist, new_user);
+	}
+	return;
+}
+
+void add_user(UserList *userlist, User *new_user){
+    User* current = userlist->list;
+    while(1){
+        if(current->next != NULL) {
+            current = current->next;
+            continue;
+        } else {
+            current = new_user;
+            new_user->next = NULL;
+            return;
+        }
+    }
+}
 
 void borrow_a_book(User* currentuser, BookList* booklist, BookList* borrowedlist){
 	Book* current = booklist->list->next;
@@ -35,16 +75,15 @@ void borrow_a_book(User* currentuser, BookList* booklist, BookList* borrowedlist
 			new_borrowedbook->title = (char *)malloc(strlen(current->title));
 			strcpy(new_borrowedbook->title, current->title);
 			new_borrowedbook->authors = (char *)malloc(strlen(current->authors));
-			strcpy(new_borrwedbook->authors, current->authors);
+			strcpy(new_borrowedbook->authors, current->authors);
 			new_borrowedbook->year = current->year;
 			new_borrowedbook->currentborroweduser = (char *)malloc(strlen(currentuser->username));
 			strcpy(new_borrowedbook->currentborroweduser, currentuser->username);
-			new_borrowedbook->copies = NULL;
 			new_borrowedbook->next = NULL;
 			if(add_book(borrowedlist->list, new_borrowedbook)){
 				borrowedlist->length ++;
-				print("you have borrowed the %s successfully:)", borrowedbook->title);
-			} else print("Sorry, you are failed to borrowed the book, please try again:(")
+				printf("you have borrowed the %s successfully:)", new_borrowedbook->title);
+			} else printf("Sorry, you are failed to borrowed the book, please try again:(");
 			current->copies --;
 			if(current->copies == 0) booklist->length --;
 }
@@ -69,17 +108,15 @@ void return_a_book(User* currentuser, BookList* booklist, BookList* borrowedlist
 		} else {
 			borrowedlist_current = borrowedlist->list->next;
 			while(borrowedlist_current->id != option && borrowedlist_current->next != NULL){
-				borrowedlist_current = borrowedlist_current->borrowedlist_next; //find the chosen book
+				borrowedlist_current = borrowedlist_current->next; //find the chosen book
 			}
 			break;
 		} 
-		if(borrowedlist_current->id == option){
-			borrowedlist_current->borrowedlist_next->avaliable_statement = 1;
-			borrowedlist_current->borrowedlist_next->currentborroweduser = NULL;
-			borrowedlist_current = borrowedlist_current->borrowedlist_next;
-			borrowedlist_current->borrowedlist_next = NULL;
-			borrowedlist->length --;
+		if(borrowedlist_current->next->id == option){
+			free((void *)borrowedlist_current);
+			
 		} else printf("can not find the book you need, please try again:(");		
+}
 }
 
 void search_for_books( BookList* booklist){
@@ -91,7 +128,7 @@ void search_for_books( BookList* booklist){
     printf("1) search by title\n");
     printf("2) search by author\n");
     printf("3) search by year\n");
-    pruntf("4) quit\n")
+    printf("4) quit\n");
     scanf("%d",&option);
     switch (option) {
         case 1 :           
@@ -99,18 +136,22 @@ void search_for_books( BookList* booklist){
             scanf("%c", title);
             find_book_by_title(booklist->list,title);
         	search_for_books(booklist);
+		break;
         case 2 :
             printf("please input the authors:");
             scanf("%c", authors);
             find_book_by_author(booklist->list,authors);
         	search_for_books(booklist);
+		break;
         case 3 :
             printf("please input the year:");
             scanf("%d", &year);
             find_book_by_year(booklist->list, year);
         	search_for_books(booklist);
+		break;
 	  case 4:
 		return;
+		break;
     }
 
 }

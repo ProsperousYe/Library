@@ -31,7 +31,7 @@ void add_a_book(BookList* booklist){
     //new_book->borrowedlistnext = NULL;
     if(add_book(booklist->list, new_book) == 0) {
 	booklist->length ++;
-	print("Add book successfully!");	
+	printf("Add book successfully!");	
     } else printf("Add book failed! please try again:(");
 }
 

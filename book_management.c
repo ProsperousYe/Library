@@ -4,29 +4,33 @@
 #include <string.h>
 
 int store_books(FILE *file, BookList *booklist){
-	Book* current = booklist->list->next;
+	Book* temp;
+	Book* current = booklist->list;
 	while(current->next != NULL){
 		fprintf(file, "%d\n", current->id);
 		fputs(current->title, file);
 		fputs(current->authors, file);
-		fprintf(file, "%d\n", current->years);
+		fprintf(file, "%d\n", current->year);
 		fprintf(file, "%d\n", current->copies);
-		fputs(current->currentborroweduser, file);
-		current = current->next;
+		fputs(current->currentborroweduser, file);	
+		temp = current->next;
+		free((void *)current);
+		current = temp;
+
 	}
 	return 0;
 }
 
 int load_books(FILE *file, BookList* booklist){
-	Book* new_book;
+	
 	while(getc(file) != EOF){
-		new_book=(Book *)malloc(sizeof(Book));
-		fscanf(file, "%d\n", &current->id);
-		fgets(current->title, file);
-		fgets(current->authors, file);
-		fscanf(file, "%d\n", &current->years);
-		fscanf(file, "%d\n", &current->copies);
-		fgets(current->currentborroweduser, file);
+		Book* new_book = (Book *)malloc(sizeof(Book));
+		fscanf(file, "%d\n", &new_book->id);
+		fgets(new_book->title, 40,file);
+		fgets(new_book->authors, 40,file);
+		fscanf(file, "%d\n", &new_book->year);
+		fscanf(file, "%d\n", &new_book->copies);
+		fgets(new_book->currentborroweduser, 40,file);
 		add_book(booklist->list, new_book);
 	}
 	return 0;

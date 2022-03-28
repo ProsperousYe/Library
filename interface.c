@@ -75,36 +75,46 @@ void interface(User* currentuser, BookList* booklist, BookList* borrowedlist, Us
                     add_a_book(booklist);
 			interface(currentuser, booklist, borrowedlist, userlist, login);
                 } else {
-                    borrow_a_book(booklist, borrowedlist);
+                    borrow_a_book(currentuser, booklist, borrowedlist);
 			interface(currentuser, booklist, borrowedlist, userlist, login);
-                }
+                } break;
             case 2:
                 if(currentuser->role == 2){
                     remove_a_book(booklist);
 			interface(currentuser, booklist, borrowedlist, userlist, login);
                 } else {
-                    return_a_book(booklist, borrowedlist);
+                    return_a_book(currentuser, booklist, borrowedlist);
 			interface(currentuser, booklist, borrowedlist, userlist, login);
-                }
+                } break;
             case 3:search_for_books(booklist);
 			interface(currentuser, booklist, borrowedlist, userlist, login);
+			break;
             case 4:display_all_books(booklist);
 			interface(currentuser, booklist, borrowedlist, userlist, login);
-            case 5: interface(currentuser, booklist, borrowedlist, userlist, 0);                
+			break;
+            case 5: interface(currentuser, booklist, borrowedlist, userlist, 0);   
+			break;            
         }
     } else {
         switch(show_menu_not_login()){
-            case 1:register_an_account(userlist);
+            case 1:printf("loading...\n");
+			register_an_account(userlist);
 			interface(currentuser, booklist, borrowedlist, userlist, login);
-            case 2:visitor_login(currentuser, userlist, login); //输入账号密码，验证后，将log状态改为1，并且调用show_menu_login（）
-			interface(currentuser, booklist, borrowedlist, userlist, login);               
-            case 3:search_for_books(booklist);
+			break;
+            case 2:printf("loading...\n");
+			visitor_login(currentuser, userlist, login); //输入账号密码，验证后，将log状态改为1，并且调用show_menu_login（）
+			interface(currentuser, booklist, borrowedlist, userlist, login);    
+			break;           
+            case 3:printf("loading...\n");
+			search_for_books(booklist);
 			interface(currentuser, booklist, borrowedlist, userlist, login);
-            case 4:display_all_books(booklist);
+			break;
+            case 4:printf("loading...\n");
+			display_all_books(booklist);
 			interface(currentuser, booklist, borrowedlist, userlist, login);
-            case 5: //退出系统
-                break;
+			break;
+            case 5:printf("exiting...\n");
+			return;
         }
     }
-    return;
 }

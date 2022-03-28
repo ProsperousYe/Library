@@ -4,6 +4,7 @@
 
 #ifndef LIBRARY_USER_H
 #define LIBRARY_USER_H
+#include "book_management.h"
 
 typedef struct _User {
     char *password;
@@ -18,16 +19,18 @@ typedef struct _UserList {
    unsigned int length;
 } UserList;
 
-void store_users();
+void store_users(FILE *file, UserList *userlist);
 
-void load_users();
+void load_users(FILE *file, UserList *userlist);
 
-void borrow_a_book();
+void add_user(UserList *userlist, User *new_user);
 
-void return_a_book();
+void borrow_a_book(User* currentuser, BookList* booklist, BookList* borrowedlist);
 
-void search_for_books();
+void return_a_book(User* currentuser, BookList* booklist, BookList* borrowedlist);
 
-void display_all_books();
+void search_for_books(BookList* booklist);
+
+void display_all_books(BookList* booklist);
 
 #endif //LIBRARY_USER_H
