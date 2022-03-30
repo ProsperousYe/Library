@@ -37,7 +37,7 @@ int load_books(FILE *file, BookList *booklist);
 
 //adds a book to the ones available to the library
 //returns 0 if the book could be added, or an error code otherwise
-int add_book(Book* booklist, Book* targetbook);
+int add_book(BookList* booklist, Book* targetbook);
 
 //removes a book from the library
 //returns 0 if the book could be successfully removed, or an error code otherwise.

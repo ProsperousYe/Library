@@ -23,7 +23,7 @@ void store_users(FILE *file, UserList *userlist);
 
 void load_users(FILE *file, UserList *userlist);
 
-void add_user(UserList *userlist, User *new_user);
+int add_user(UserList *userlist, User *new_user);
 
 void borrow_a_book(User* currentuser, BookList* booklist, BookList* borrowedlist);
 

@@ -1,11 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "interface.h"
 #include "user.h"
 #include "book_management.h"
 
 int main(int argc, char* argv[]){
 //four steps to initialize:open files, regisiter for the head pointer, regisiter for the frist empty block and constract the linked lists
+	if(argc != 4 || strcmp(argv[1],"book.txt") != 0 || strcmp(argv[2], "user.txt") != 0 || strcmp(argv[3], "loan.txt") != 0){
+		printf("Invalid file name! Please input: book.txt user.txt loan.txt\n");
+		return 0;		
+	}	
 	FILE* bookfile                = fopen(argv[1],"w+");			//the first argment is the name of booklist storage
 	FILE* userfile                = fopen(argv[2],"w+");			//second is storage the user info
 	FILE* loanfile                = fopen(argv[3],"w+");			//third is storage the borrowed info
@@ -16,18 +21,29 @@ int main(int argc, char* argv[]){
 	Book* bookheader              = (Book*)malloc(sizeof(Book));		//register the first empty node for the book linked list
 	Book* borrowedheader          = (Book*)malloc(sizeof(Book));		//register the first empty node for the borrowed book linked list
 	User* userheader              = (User*)malloc(sizeof(User));		//register the first empty node for the user linked lists
-	booklist->list                = bookheader;				//let the head pointer point to the first empty node
+	booklist->list                = bookheader;
+	userlist->list		     = userheader;				//let the head pointer point to the first empty node
 	bookheader->next              = NULL;					//let the first empty node next point to NULL, means the end of linked list
 	borrowedlist->list            = borrowedheader;
 	borrowedheader->next	     = NULL;
-	userlist->list                = userheader;
 	userheader->next              = NULL;
-	currentuser			     = NULL;
-	int login                     = 0;						//initialize the login statement
+	booklist->length		     = 0;	
+	currentuser			     = NULL;					//initialize the login statement
+	User* admin			     = (User*)malloc(sizeof(User));
+	char adminstr[10] = "admin";				
+	admin->username = (char *)malloc(sizeof(adminstr));
+	admin->password = (char *)malloc(sizeof(adminstr));
+	strcpy(admin->username, adminstr);
+	strcpy(admin->password, adminstr);
+	admin->role = 1;
+	add_user(userlist, admin);
+	userlist->length		     = 1;
 	load_books(bookfile, booklist);
 	load_books(loanfile, borrowedlist);
 	load_users(userfile, userlist);
-    	interface(currentuser, booklist, borrowedlist, userlist, login);
+
+    	interface(currentuser, booklist, borrowedlist, userlist);
+
 	store_books(bookfile, booklist);
 	store_books(loanfile, borrowedlist);
 	store_users(userfile, userlist);
@@ -41,7 +57,7 @@ int main(int argc, char* argv[]){
 	free((void *)borrowedheader);
 	free((void *)userheader);
 	free((void *)currentuser);	
-							//free the space of linked lists
+	printf("exist successfully! Bye-bye:)\n");						//free the space of linked lists
     	return 0;
 }
 

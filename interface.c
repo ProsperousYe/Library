@@ -13,9 +13,9 @@
 
 int show_menu_login(char username[40], int role){
     int option;
-    printf("(Logged in as: %c\n)", username);
-    if (!strcmp(username, "librarian")) {
-	role = 1;
+    printf("(Logged in as: %s)\n", username);
+    if (strcmp(username, "admin") != 0) {
+	//role = 0;
         printf("Please choose an option:\n");
         printf("1) Borrow a book\n");
         printf("2) Return a book\n");
@@ -31,7 +31,7 @@ int show_menu_login(char username[40], int role){
             show_menu_login(username, role);
         }
     } else {
-	role = 2;
+	//role = 1;
         printf("Please choose an option:\n");
         printf("1) Add a book\n");
         printf("2) Remove a book\n");
@@ -67,54 +67,55 @@ int show_menu_not_login(){
     }
 }
 
-void interface(User* currentuser, BookList* booklist, BookList* borrowedlist, UserList* userlist, int login){
-    if(login){
-        switch(show_menu_login(currentuser->username, currentuser->role)){
-            case 1:
-                if(currentuser->role == 2){
-                    add_a_book(booklist);
-			interface(currentuser, booklist, borrowedlist, userlist, login);
-                } else {
-                    borrow_a_book(currentuser, booklist, borrowedlist);
-			interface(currentuser, booklist, borrowedlist, userlist, login);
-                } break;
-            case 2:
-                if(currentuser->role == 2){
-                    remove_a_book(booklist);
-			interface(currentuser, booklist, borrowedlist, userlist, login);
-                } else {
-                    return_a_book(currentuser, booklist, borrowedlist);
-			interface(currentuser, booklist, borrowedlist, userlist, login);
-                } break;
-            case 3:search_for_books(booklist);
-			interface(currentuser, booklist, borrowedlist, userlist, login);
-			break;
-            case 4:display_all_books(booklist);
-			interface(currentuser, booklist, borrowedlist, userlist, login);
-			break;
-            case 5: interface(currentuser, booklist, borrowedlist, userlist, 0);   
-			break;            
-        }
-    } else {
+void interface(User* currentuser, BookList* booklist, BookList* borrowedlist, UserList* userlist){
+while(1){
         switch(show_menu_not_login()){
             case 1:printf("loading...\n");
 			register_an_account(userlist);
-			interface(currentuser, booklist, borrowedlist, userlist, login);
+			//interface(currentuser, booklist, borrowedlist, userlist);
 			break;
             case 2:printf("loading...\n");
-			visitor_login(currentuser, userlist, login); //输入账号密码，验证后，将log状态改为1，并且调用show_menu_login（）
-			interface(currentuser, booklist, borrowedlist, userlist, login);    
+			if((currentuser = visitor_login(currentuser, userlist)) != NULL){
+				printf("%s,%d", currentuser->username,currentuser->role);			
+				printf("waiting...\n");
+				while(1){
+					switch(show_menu_login(currentuser->username, currentuser->role)){
+					    case 1:printf("loading...\n");
+						if(strcmp(currentuser->username, "admin") == 0){
+						    printf("waiting...");
+						    add_a_book(booklist);
+						} else {
+						    borrow_a_book(currentuser, booklist, borrowedlist);
+						} break;
+					    case 2:printf("loading...\n");
+						if(strcmp(currentuser->username, "admin") == 0){
+						    remove_a_book(booklist);
+						} else {
+						    return_a_book(currentuser, booklist, borrowedlist);
+						} break;
+					    case 3:printf("loading...\n");
+							search_for_books(booklist);
+							break;
+					    case 4:printf("loading...\n");
+							display_all_books(booklist);
+							break;
+					    case 5: 
+							break;  
+					}
+					break;
+				}
+				//interface_login(currentuser, booklist, borrowedlist, userlist);
+			}	
 			break;           
             case 3:printf("loading...\n");
 			search_for_books(booklist);
-			interface(currentuser, booklist, borrowedlist, userlist, login);
 			break;
             case 4:printf("loading...\n");
 			display_all_books(booklist);
-			interface(currentuser, booklist, borrowedlist, userlist, login);
 			break;
             case 5:printf("exiting...\n");
 			return;
         }
-    }
+    
+	}
 }

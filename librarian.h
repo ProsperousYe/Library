@@ -4,9 +4,9 @@
 
 #ifndef LIBRARY_LIBRARIAN_H
 #define LIBRARY_LIBRARIAN_H
+#include "book_management.h"
+void add_a_book(BookList* booklist);
 
-void add_a_book();
-
-void remove_a_book();
+void remove_a_book(BookList* booklist);
 
 #endif //LIBRARY_LIBRARIAN_H

@@ -10,29 +10,30 @@
 
 void add_a_book(BookList* booklist){
     char temp[100];
-    Book* new_book=(Book *)malloc(sizeof(Book));
-    printf("please input the id");
-    scanf("%d",new_book->next->id);
-    printf("please input the title:");
-    scanf("%s",&temp);
-    new_book->title = (char *)malloc(strlen(temp));
+    char temp2[100];
+    Book* new_book = (Book *)malloc(sizeof(Book));
+    printf("\nplease input the id:");
+    scanf("%d",&new_book->id);
+    printf("\nplease input the title:");
+    scanf("%s",temp);
+    new_book->title = (char *)malloc(strlen(temp)+1);
     strcpy(new_book->title,temp);
-    printf("please input the author:");
-    scanf("%s",&temp);
-    new_book->authors = (char *)malloc(strlen(temp));
-    strcpy(new_book->authors,temp);
-    printf("please input the year:");
-    scanf("%d",new_book->year);
-    printf("please input the copies:");
-    scanf("%d",new_book->copies);
+    printf("\nplease input the author:");
+    scanf("%s",temp2);
+    new_book->authors = (char *)malloc(strlen(temp2)+1);
+    strcpy(new_book->authors,temp2);
+    printf("\nplease input the year:");
+    scanf("%d",&new_book->year);
+    printf("\nplease input the copies:");
+    scanf("%d",&new_book->copies);
     //new_book->avaliablestatement = 0;
     new_book->currentborroweduser = NULL;
     new_book->next = NULL;
     //new_book->borrowedlistnext = NULL;
-    if(add_book(booklist->list, new_book) == 0) {
+    if(add_book(booklist, new_book) == 0) {
 	booklist->length ++;
-	printf("Add book successfully!");	
-    } else printf("Add book failed! please try again:(");
+	printf("\nAdd book successfully!");	
+    } else printf("\nAdd book failed! please try again:(");
 }
 
 void remove_a_book(BookList* booklist){

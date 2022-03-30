@@ -13,13 +13,14 @@ void register_an_account(UserList* userlist){
     char temp2[100];
     while(1){
 	    User* currentuser =(User *)malloc(sizeof(User));
+	    currentuser->role = 0;
 	    printf("please input the username:");
 	    scanf("%s", temp);
-	    currentuser->username = (char *)malloc(sizeof(strlen(temp)));
+	    currentuser->username = (char *)malloc(sizeof(strlen(temp)+1));
 	    strcpy(currentuser->username, temp);
 	    printf("please input the password:");
 	    scanf("%s", temp2);
-	    currentuser->password = (char *)malloc(sizeof(strlen(temp2)));
+	    currentuser->password = (char *)malloc(sizeof(strlen(temp2)+1));
 	    strcpy(currentuser->password, temp2);
 	    printf("please confirm your password:");
 	    scanf("%s", c_password);
@@ -28,35 +29,52 @@ void register_an_account(UserList* userlist){
 		free((void *)currentuser);	
 		continue;
 		} else {
-		add_user(userlist, currentuser);
-		userlist->length ++;
-		printf("Congratuations! The account is created successfully!\n");
-		printf("Welcome to this Library system:)\n");
-		break;
+		if(add_user(userlist, currentuser) == 0){
+			userlist->length ++;
+			printf("Congratuations! The account is created successfully!\n");
+			printf("Welcome to this Library system:)\n");
+			printf("%s",userlist->list->next->next->password);
+			break;
+		} else {
+			printf("register failed:(");
+			break;		
+		}
 	}
-
     }
+	//printf("%s",userlist->list->password);
+	//puts(userlist->list->password);
 }
 
 
-void visitor_login(User* currentuser,UserList* userlist, int login){
-	User* current = userlist->list;
+User* visitor_login(User* currentuser,UserList* userlist){
+	if(userlist->length <= 1){
+		printf("please register first!");
+	}	
+	User* current = userlist->list->next;
+	User* admin = (User*)malloc(sizeof(User));
 	char temp_username[100];
 	char temp_password[100];
 	printf("please input the username:");
 	scanf("%s", temp_username);
 	printf("please input the password:");
 	scanf("%s", temp_password);
-	while(current->next != NULL){
-		if((strcmp(temp_username, current->username) == 0) && (strcmp(temp_password, current->password) == 0)){
-			printf("login successfully!");				
-			currentuser = current;
-			login = 1;
-			return;
+	while(1) {
+		if(current != NULL){
+			if((strcmp(current->username, temp_username) == 0 && strcmp(current->password, temp_password) == 0)){
+				//currentuser = current;
+				//printf("%s", current->username);
+				//printf("%s", currentuser->username);
+				//current->role = 0;
+				printf("login successfully!\n");
+				return current;
+			} else {
+				printf("finding...\n");
+				current = current->next;
+			}
 		} else {
-			current = current->next;
-			continue;		
+			printf("Sorry! the username or password may not exist, please cheak them:(\n");
+			return NULL;
 		}
 	}
-	printf("Sorry! the username or password may not exsist, please cheak them:(\n");
+
 }

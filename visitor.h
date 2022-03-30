@@ -4,10 +4,10 @@
 
 #ifndef LIBRARY_VISITOR_H
 #define LIBRARY_VISITOR_H
-
+#include "user.h"
 void register_an_account();
 
-void login(int login);
+User* visitor_login(User* currentuser,UserList* userlist);
 
 void quit();
 #endif //LIBRARY_VISITOR_H
