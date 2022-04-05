@@ -98,33 +98,48 @@ void borrow_a_book(User* currentuser, BookList* booklist, BookList* borrowedlist
 
 void return_a_book(User* currentuser, BookList* booklist, BookList* borrowedlist){
 	Book* borrowedlist_current = borrowedlist->list->next;
-      printf("id\ttitle\tauthor\tyear\tcopies\n");
+      printf("id\ttitle\tauthor\tyear\n");
 	unsigned int option;
-      do{
-		if(strcmp(borrowedlist_current->currentborroweduser, currentuser->username)) {
-			printf("%d\t%s\t%s\t%d\t%d\n",borrowedlist_current->id, borrowedlist_current->title, borrowedlist_current->authors, borrowedlist_current->year, borrowedlist_current->copies);
+	int number = 0;
+      while(borrowedlist_current != NULL){
+		if(strcmp(borrowedlist_current->currentborroweduser, currentuser->username) == 0) {
+			printf("%d\t%s\t%s\t%d\n",borrowedlist_current->id, borrowedlist_current->title, borrowedlist_current->authors, borrowedlist_current->year);
 			borrowedlist_current = borrowedlist_current->next;
+			number ++;
 		} else borrowedlist_current = borrowedlist_current->next;
-	}while(borrowedlist_current != NULL);
-	printf("please choose the book that you want to return(input the id):");
-	scanf("%d", &option);
-	while(1){
-		if(option < 0){
-			printf("the option is incalid!please re-input:(");
-			scanf("%d", &option);
-			continue;
-		} else {
-			borrowedlist_current = borrowedlist->list;
-			while(borrowedlist_current->id != option && borrowedlist_current != NULL){
-				borrowedlist_current = borrowedlist_current->next; //find the chosen book
+	}
+	if(number == 0){
+		printf("You have not borrowed any book!");
+		return;
+	} else {
+		printf("please choose the book that you want to return(input the id):");
+		scanf("%d", &option);
+		while(1){
+			if(option < 0){
+				printf("the option is invalid!please re-input:(");
+				scanf("%d", &option);
+				continue;
+			} else {
+				borrowedlist_current = borrowedlist->list;
+				while(borrowedlist_current->next != NULL){
+					if(borrowedlist_current->next->id != option) borrowedlist_current = borrowedlist_current->next; //find the chosen book
+					else break;
+				}
+				break;
 			}
-			break;
 		} 
-		if(borrowedlist_current->next->id == option){
-			free((void *)borrowedlist_current);
-			
-		} else printf("can not find the book you need, please try again:(");		
-}
+		printf("returning..\n");
+		Book* booklist_current = booklist->list->next;			
+		while(booklist_current->id != option){
+			booklist_current = booklist_current->next;				
+		}
+		booklist_current->copies ++;
+		printf("returning...\n");
+		free((void *)borrowedlist_current->next);
+		borrowedlist_current->next = NULL;
+		printf("return %s successfully\n!", booklist_current->title);
+		}
+	
 }
 
 void search_for_books( BookList* booklist){
