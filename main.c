@@ -11,9 +11,15 @@ int main(int argc, char* argv[]){
 		printf("Invalid file name! Please input: book.txt user.txt loan.txt\n");
 		return 0;		
 	}	
+system("touch book.txt");
+system("touch user.txt");
+system("touch loan.txt");
 	FILE* bookfile_p              = fopen(argv[1],"r");			//the first argment is the name of booklist storage
 	FILE* userfile_p              = fopen(argv[2],"r");			//second is storage the user info
 	FILE* loanfile_p              = fopen(argv[3],"r");			//third is storage the borrowed info
+	//if(bookfile_p==NULL) {fclose(bookfile_p);system("touch book.txt");FILE* bookfile_p = fopen(argv[1],"r");}
+	//if(userfile_p==NULL) {fclose(userfile_p);system("touch user.txt");FILE* userfile_p = fopen(argv[2],"r");}
+	//if(loanfile_p ==NULL) {fclose(loanfile_p);system("touch loan.txt");FILE* loanfile_p = fopen(argv[3],"r");}
 	User* currentuser             = (User*)malloc(sizeof(User));		//register a space to record the current user info
 	BookList* booklist            = (BookList*)malloc(sizeof(BookList));//register a header pointer for the book linked list
 	BookList* borrowedlist        = (BookList*)malloc(sizeof(BookList));//register a header pointer for the borrowed book linked list 
