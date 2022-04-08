@@ -39,9 +39,9 @@ int main(int argc, char* argv[]){
 	admin->role = 1;
 	add_user(userlist, admin);
 	userlist->length		     = 1;
-	printf("loading books...");
+	printf("loading books...\n");
 	load_books(bookfile_p, booklist);
-	printf("loading borrowed books...");
+	printf("loading borrowed books...\n");
 	load_books(loanfile_p, borrowedlist);
 	load_users(userfile_p, userlist);
 	fclose(bookfile_p);									//closing the files
@@ -67,6 +67,8 @@ int main(int argc, char* argv[]){
 	free((void *)userheader);
 	free((void *)currentuser);	
 	printf("exist successfully! Bye-bye:)\n");						//free the space of linked lists
+	system("pause");
+	system("clear");
     	return 0;
 }
 

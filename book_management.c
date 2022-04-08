@@ -127,9 +127,12 @@ void find_book_by_year(Book* booklist, unsigned int year){
     }
 }
 
-void clear(){
-	char b;
-	do{
-		scanf("%c",&b);
-	}while(b!='\n');
+void clear()
+{
+    char b;
+    do
+    {
+        scanf("%c",&b);
+    }
+    while(b !='\n');
 }

@@ -61,5 +61,5 @@ void find_book_by_author (Book* booklist, char authors[40]);
 //list is the NULL pointer.
 void find_book_by_year (Book* booklist, unsigned int year);
 
-
+void clear();
 #endif

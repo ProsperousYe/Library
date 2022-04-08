@@ -9,6 +9,7 @@
 #include "user.h"
 
 void add_a_book(BookList* booklist){
+system("clear");
     char temp[100];
     char temp2[100];
     Book* new_book = (Book *)malloc(sizeof(Book));
@@ -37,6 +38,7 @@ void add_a_book(BookList* booklist){
 }
 
 void remove_a_book(BookList* booklist){
+system("clear");
 	const int option;	
 	Book* current = booklist->list;  
 	display_all_books(booklist);

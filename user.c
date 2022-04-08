@@ -157,6 +157,7 @@ void search_for_books( BookList* booklist){
     char title[40];
     char authors[40];
     unsigned int year;
+	system("clear");
     printf("how you want to search?Please choose an option:\n");
     printf("1) search by title\n");
     printf("2) search by author\n");
@@ -164,6 +165,16 @@ void search_for_books( BookList* booklist){
     printf("4) quit\n");
     printf("Option:");
     scanf("%d",&option);
+	clear();
+while(1){
+	if(option<1 || option>4){
+		printf("invalid input please re-input:");
+		scanf("%d",&option);
+		clear();	
+	} else {
+		break;	
+	}
+}
     switch (option) {
         case 1 :           
             printf("please input the title:");

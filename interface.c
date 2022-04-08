@@ -13,6 +13,7 @@
 
 int show_menu_login(char username[40], int role){
     int option;
+	system("clear");
     printf("(Logged in as: %s)\n", username);
     if (strcmp(username, "admin") != 0) {
 	//role = 0;
@@ -24,12 +25,18 @@ int show_menu_login(char username[40], int role){
         printf("5) Quit\n");
         printf(" Option:");
         scanf("%d", &option);
+	clear();
+	while(1){
         if (0 < option && option < 6) {
             return option;
         } else {
-            printf("\nSorry, the option you entered was invalid, please try again.");
-            show_menu_login(username, role);
+            printf("Sorry, the option you entered was invalid, please try again.\n");
+		printf("Please choose an option:");
+            scanf("%d", &option);
+clear();
+		continue;
         }
+	}
     } else {
 	//role = 1;
         printf("Please choose an option:\n");
@@ -40,17 +47,24 @@ int show_menu_login(char username[40], int role){
         printf("5) Log out\n");
         printf(" Option:");
         scanf("%d", &option);
+clear();
+while(1){
         if (0 < option && option < 6) {
             return option;
         } else {
-            printf("\nSorry, the option you entered was invalid, please try again.");
-            show_menu_login(username, role);
+            printf("Sorry, the option you entered was invalid, please try again.\n");
+	printf("Please choose an option:");
+            scanf("%d", &option);
+clear();
+continue;
         }
+}
     }
 }
 
 int show_menu_not_login(){
     int option;
+system("clear");
     printf("Please choose an option:\n");
     printf("1) Register an account\n");
     printf("2) Login\n");
@@ -59,15 +73,23 @@ int show_menu_not_login(){
     printf("5) Quit\n");
     printf(" Option:");
     scanf("%d", &option);
+clear();
+while(1){
     if(0 < option && option < 6){
         return option;
     } else {
-        printf("\nSorry, the option you entered was invalid, please try again.");
-        show_menu_not_login();
+        printf("Sorry, the option you entered was invalid, please try again.");
+	printf("Please choose an option:");
+		scanf("%d", &option);
+clear();
+continue;
+	}
     }
 }
 
+
 void interface(User* currentuser, BookList* booklist, BookList* borrowedlist, UserList* userlist){
+system("clear");
 while(1){
         switch(show_menu_not_login()){
             case 1:printf("loading...\n");
@@ -82,7 +104,7 @@ while(1){
 					switch(show_menu_login(currentuser->username, currentuser->role)){
 					    case 1:printf("loading...\n");
 						if(strcmp(currentuser->username, "admin") == 0){
-						    printf("waiting...");
+						    printf("waiting...\n");
 						    add_a_book(booklist);
 						} else {
 						    borrow_a_book(currentuser, booklist, borrowedlist);
@@ -119,3 +141,5 @@ while(1){
     
 	}
 }
+
+
