@@ -11,9 +11,9 @@ int main(int argc, char* argv[]){
 		printf("Invalid file name! Please input: book.txt user.txt loan.txt\n");
 		return 0;		
 	}	
-	FILE* bookfile                = fopen(argv[1],"w+");			//the first argment is the name of booklist storage
-	FILE* userfile                = fopen(argv[2],"w+");			//second is storage the user info
-	FILE* loanfile                = fopen(argv[3],"w+");			//third is storage the borrowed info
+	FILE* bookfile_p              = fopen(argv[1],"r");			//the first argment is the name of booklist storage
+	FILE* userfile_p              = fopen(argv[2],"r");			//second is storage the user info
+	FILE* loanfile_p              = fopen(argv[3],"r");			//third is storage the borrowed info
 	User* currentuser             = (User*)malloc(sizeof(User));		//register a space to record the current user info
 	BookList* booklist            = (BookList*)malloc(sizeof(BookList));//register a header pointer for the book linked list
 	BookList* borrowedlist        = (BookList*)malloc(sizeof(BookList));//register a header pointer for the borrowed book linked list 
@@ -27,7 +27,8 @@ int main(int argc, char* argv[]){
 	borrowedlist->list            = borrowedheader;
 	borrowedheader->next	     = NULL;
 	userheader->next              = NULL;
-	booklist->length		     = 0;	
+	booklist->length		     = 0;
+	borrowedlist->length	     = 0;	
 	currentuser			     = NULL;					//initialize the login statement
 	User* admin			     = (User*)malloc(sizeof(User));
 	char adminstr[10] = "admin";				
@@ -38,12 +39,20 @@ int main(int argc, char* argv[]){
 	admin->role = 1;
 	add_user(userlist, admin);
 	userlist->length		     = 1;
-	load_books(bookfile, booklist);
-	load_books(loanfile, borrowedlist);
-	load_users(userfile, userlist);
+	printf("loading books...");
+	load_books(bookfile_p, booklist);
+	printf("loading borrowed books...");
+	load_books(loanfile_p, borrowedlist);
+	load_users(userfile_p, userlist);
+	fclose(bookfile_p);									//closing the files
+	fclose(userfile_p);
+	fclose(loanfile_p);
 
     	interface(currentuser, booklist, borrowedlist, userlist);
 
+	FILE* bookfile                = fopen(argv[1],"w");			//the first argment is the name of booklist storage
+	FILE* userfile                = fopen(argv[2],"w");			//second is storage the user info
+	FILE* loanfile                = fopen(argv[3],"w");
 	store_books(bookfile, booklist);
 	store_books(loanfile, borrowedlist);
 	store_users(userfile, userlist);

@@ -38,24 +38,33 @@ void add_a_book(BookList* booklist){
 
 void remove_a_book(BookList* booklist){
 	const int option;	
+	Book* current = booklist->list;  
 	display_all_books(booklist);
 	printf("which book you want to remove?(Please choose it by id):");
+	scanf("%d", &option);
+	printf("waiting.."); 
 	while(1){	
-		scanf("%d\n", option);
-		if(option <= 0 || option > booklist->length){
+		if(option < 0){
 			printf("invalid option! Please re-input:");
+			scanf("%d", &option);
 			continue;
-		} else {	
-			Book* current = booklist->list->next;    
-			while(current->id = option){
-				if(remove_book(booklist->list, current) == 0){
-					printf("you have remove the book successfully:)");
-					break;				
-				} else {
-					printf("Sorry! There is some error when removing the book:(");
-					break;
-				}
-			}
-		}
+		} else break;
 	}
+	printf("waiting.."); 
+	while(current->id != option && current != NULL){
+		current = current->next;
+	}
+	if(current->id == option){
+		if(remove_book(booklist, current) == 0){
+			printf("you have remove the book successfully:)");
+			return;				
+		} else {
+			printf("Sorry! There is some error when removing the book:(");
+			return;
+		}	
+	} else {
+		printf("there is no book has id you input;(");
+		return;
+	}
+
 }

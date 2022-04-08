@@ -8,34 +8,40 @@
 #include <string.h>
 #include <stdlib.h>
 void store_users(FILE *file, UserList *userlist){
-		User* temp = NULL;
-		User* current = userlist->list->next;
-		puts(userlist->list->next->password);
+	User* current = userlist->list->next->next;
+	//puts(current->username);
 	while(current != NULL){
+		//fprintf(file, "%c\n", 'c');
+		//puts(userlist->list->next->username);
 		fprintf(file, "%s\n", current->username);
 		fprintf(file, "%s\n", current->password);
 		fprintf(file, "%d\n", current->role);
-		temp = current->next;
-		free((void *)current);
-		current = temp;
+		//fwrite(current, sizeof(User), 1, file); 
+		current = current->next;
 	}
+	//fclose(file);
 	return;
 }
 
-void load_users(FILE *file, UserList *userlist){
-	while(getc(file) != EOF){
-		User* new_user=(User *)malloc(sizeof(User));
+void load_users(FILE *file, UserList *userlist){	
+	//add other users
+	User* new_user;
+	while(1){
+		if (feof(file)) break;
+		new_user =(User *)malloc(sizeof(User));
 		char username[100];
 		char password[100];
 		fscanf(file, "%s\n", username);
-		new_user->username = (char *)malloc(sizeof(strlen(username)));
+		new_user->username = (char *)malloc(sizeof(strlen(username)+1));
 		strcpy(new_user->username, username);
 		fscanf(file, "%s\n", password);
-		new_user->password = (char *)malloc(sizeof(strlen(password)));
-		strcpy(new_user->password, password);
+	      new_user->password = (char *)malloc(sizeof(strlen(password)+1));
+	      strcpy(new_user->password, password);
 		fscanf(file, "%d\n", &new_user->role);
 		add_user(userlist, new_user);
+		userlist->length++;
 	}
+	//fcolse(file);
 	return;
 }
 
@@ -58,11 +64,11 @@ void borrow_a_book(User* currentuser, BookList* booklist, BookList* borrowedlist
 	Book* borrowed_current = borrowedlist->list;
 	unsigned int option;
 //print out the available books
-      printf("id\ttitle\tauthor\tyear\tcopies\n");
+      printf("id\t\ttitle\t\tauthor\t\tyear\t\tcopies\n");
       while(current != NULL){
 		if(current->copies != 0) {
-		  printf("%d\t%s\t%s\t%d\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
-		   current = current->next;
+		  printf("%d\t\t%s\t\t%s\t\t%d\t\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
+		  current = current->next;
 		} else current = current->next;
 	}
 	printf("please choose the book that you want to borrow(input the id):");
@@ -74,36 +80,34 @@ void borrow_a_book(User* currentuser, BookList* booklist, BookList* borrowedlist
 			continue;
 		} else break;
 	}
-			current = booklist->list;
-			while(current->id != option)
-				current = current->next; //find the chosen book
+	current = booklist->list;
+	while(current->id != option)
+		current = current->next; //find the chosen book
 //update the statement of the chosen book
-			Book* new_borrowedbook = (Book *)malloc(sizeof(Book));
-			new_borrowedbook->id = current->id;
-			new_borrowedbook->title = (char *)malloc(strlen(current->title));
-			strcpy(new_borrowedbook->title, current->title);
-			new_borrowedbook->authors = (char *)malloc(strlen(current->authors));
-			strcpy(new_borrowedbook->authors, current->authors);
-			new_borrowedbook->year = current->year;
-			new_borrowedbook->currentborroweduser = (char *)malloc(strlen(currentuser->username));
-			strcpy(new_borrowedbook->currentborroweduser, currentuser->username);
-			new_borrowedbook->next = NULL;
-			if(add_book(borrowedlist, new_borrowedbook) == 0){
-				borrowedlist->length ++;
-				current->copies --;
-				if(current->copies == 0) booklist->length --;
-				printf("you have borrowed the %s successfully:)", new_borrowedbook->title);
-			} else printf("Sorry, you are failed to borrowed the book, please try again:(");
+	Book* new_borrowedbook = (Book *)malloc(sizeof(Book));
+	new_borrowedbook->id = current->id;
+	new_borrowedbook->title = (char *)malloc(strlen(current->title));
+	strcpy(new_borrowedbook->title, current->title);
+	new_borrowedbook->authors = (char *)malloc(strlen(current->authors));
+	strcpy(new_borrowedbook->authors, current->authors);
+	new_borrowedbook->year = current->year;
+	new_borrowedbook->currentborroweduser = (char *)malloc(strlen(currentuser->username));
+	strcpy(new_borrowedbook->currentborroweduser, currentuser->username);
+	add_book(borrowedlist, new_borrowedbook);
+	borrowedlist->length ++;
+	current->copies --;
+	printf("you have borrowed the %s successfully:)", new_borrowedbook->title);
+
 }
 
 void return_a_book(User* currentuser, BookList* booklist, BookList* borrowedlist){
 	Book* borrowedlist_current = borrowedlist->list->next;
-      printf("id\ttitle\tauthor\tyear\n");
+      printf("id\t\ttitle\t\tauthor\t\tyear\n");
 	unsigned int option;
 	int number = 0;
       while(borrowedlist_current != NULL){
 		if(strcmp(borrowedlist_current->currentborroweduser, currentuser->username) == 0) {
-			printf("%d\t%s\t%s\t%d\n",borrowedlist_current->id, borrowedlist_current->title, borrowedlist_current->authors, borrowedlist_current->year);
+			printf("%d\t\t%s\t\t%s\t\t%d\n",borrowedlist_current->id, borrowedlist_current->title, borrowedlist_current->authors, borrowedlist_current->year);
 			borrowedlist_current = borrowedlist_current->next;
 			number ++;
 		} else borrowedlist_current = borrowedlist_current->next;
@@ -120,24 +124,30 @@ void return_a_book(User* currentuser, BookList* booklist, BookList* borrowedlist
 				scanf("%d", &option);
 				continue;
 			} else {
-				borrowedlist_current = borrowedlist->list;
-				while(borrowedlist_current->next != NULL){
-					if(borrowedlist_current->next->id != option) borrowedlist_current = borrowedlist_current->next; //find the chosen book
+				borrowedlist_current = borrowedlist->list->next;
+				while(borrowedlist_current != NULL){
+					if(borrowedlist_current->id != option) borrowedlist_current = borrowedlist_current->next; //find the chosen book
 					else break;
 				}
 				break;
 			}
 		} 
 		printf("returning..\n");
-		Book* booklist_current = booklist->list->next;			
-		while(booklist_current->id != option){
+		Book* booklist_current = booklist->list->next;	
+				
+		while(booklist_current->id != option && booklist_current!=NULL){
 			booklist_current = booklist_current->next;				
 		}
-		booklist_current->copies ++;
-		printf("returning...\n");
-		free((void *)borrowedlist_current->next);
-		borrowedlist_current->next = NULL;
-		printf("return %s successfully\n!", booklist_current->title);
+		if(booklist_current == NULL){
+			printf("retrun false, please check the library stroage!");
+		} else {
+			printf("returning...\n");
+			booklist_current->copies++;
+			borrowedlist->length--;
+			
+			remove_book(borrowedlist,borrowedlist_current);
+			printf("return %s successfully!\n", booklist_current->title);
+		}
 		}
 	
 }
@@ -181,11 +191,16 @@ void search_for_books( BookList* booklist){
 }
 
 void display_all_books(BookList* booklist){
+    if(booklist->length == 0){
+	printf("the library is empty\n");	
+	}
+	else{
     Book* current = booklist->list->next;
-    printf("id\ttitle\tauthor\tyear\tcopies\n");
+    printf("id\t\ttitle\t\tauthor\t\tyear\t\tcopies\n");
     while(current != NULL){
-        printf("%d\t%s\t%s\t%d\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
-	  current= current->next;
+        printf("%d\t\t%s\t\t%s\t\t%d\t\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
+	  current = current->next;
     		}
+	}
 	}
 

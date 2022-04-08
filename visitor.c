@@ -61,10 +61,6 @@ User* visitor_login(User* currentuser,UserList* userlist){
 	while(1) {
 		if(current != NULL){
 			if((strcmp(current->username, temp_username) == 0 && strcmp(current->password, temp_password) == 0)){
-				//currentuser = current;
-				//printf("%s", current->username);
-				//printf("%s", currentuser->username);
-				//current->role = 0;
 				printf("login successfully!\n");
 				return current;
 			} else {

@@ -41,7 +41,7 @@ int add_book(BookList* booklist, Book* targetbook);
 
 //removes a book from the library
 //returns 0 if the book could be successfully removed, or an error code otherwise.
-int remove_book(Book* booklist, Book* targetbook);
+int remove_book(BookList* booklist, Book* targetbook);
 
 //finds books with a given title.
 //returns a BookList structure, where the field "list" is a list of books, or null if no book with the
