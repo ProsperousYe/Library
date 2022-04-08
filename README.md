@@ -10,9 +10,9 @@ please use argument like follows to open the project after you finish make step 
 ./library book.txt user.txt loan.txt
 `
 ## During using:
-1.Please follow the hint printed by cli, do not try to input meaningless words.<ul>
-2.If you have any trouble durining using, please use **'ctrl+c'** or** 'ctrl+z'** to exit the project.<ul>
-3.**Do not** change any data in any data file like book.txt, user.txt or loan.txt!<ul>
+1.Please follow the hint printed by cli, do not try to input meaningless words.<el>
+2.If you have any trouble durining using, please use **'ctrl+c'** or **'ctrl+z'** to exit the project.<el>
+3.**Do not** change any data in any data file like book.txt, user.txt or loan.txt!<el>
 4.Also, **do not** change any thing in makefile, .c files, .o files and .h files, except you are comfirm for your coding ablilty!
 
 ## Others:
