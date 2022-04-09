@@ -8,10 +8,10 @@ This library system design for **Linux operate system**. If you are using MacOS 
 ## Open method:
 please use argument like follows to open the project after you finish make step on your computer  
 `
-make //to make project by using makefile
+$ make //to make project by using makefile
 `  
 `
-./library book.txt user.txt loan.txt //to run the library project, the three arguments behind
+$ ./library book.txt user.txt loan.txt //to run the library project, the three arguments behind
 `
 ## During using:
 1.Please follow the hint printed by cli, do not try to input meaningless words.  
