@@ -41,6 +41,7 @@ void load_users(FILE *file, UserList *userlist){
 		add_user(userlist, new_user);
 		userlist->length++;
 	}
+	userlist->length--;
 	//fcolse(file);
 	return;
 }
@@ -64,6 +65,10 @@ void borrow_a_book(User* currentuser, BookList* booklist, BookList* borrowedlist
 	Book* borrowed_current = borrowedlist->list;
 	unsigned int option;
 //print out the available books
+	if(booklist->length == 0){
+		printf("the library is empty!");
+		return;
+	}
       printf("id\t\ttitle\t\tauthor\t\tyear\t\tcopies\n");
       while(current != NULL){
 		if(current->copies != 0) {

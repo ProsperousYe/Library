@@ -46,6 +46,7 @@ int load_books(FILE *file, BookList* booklist){
 		add_book(booklist,new_book);
 		booklist->length++;
 	   }
+		booklist->length--;
         //fclose(file);
 }
 

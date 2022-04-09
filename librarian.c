@@ -58,6 +58,7 @@ system("clear");
 	}
 	if(current->id == option){
 		if(remove_book(booklist, current) == 0){
+			booklist->length--;
 			printf("you have remove the book successfully:)");
 			return;				
 		} else {
