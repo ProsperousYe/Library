@@ -80,6 +80,7 @@ User* visitor_login(User* currentuser,UserList* userlist){
 		if(current != NULL){
 			if((strcmp(current->username, temp_username) == 0 && strcmp(current->password, temp_password) == 0)){
 				printf("login successfully!\n");
+				sleep(2);
 				return current;
 			} else {
 				printf("finding...\n");
@@ -87,6 +88,7 @@ User* visitor_login(User* currentuser,UserList* userlist){
 			}
 		} else {
 			printf("Sorry! the username or password may not exist, please cheak them:(\n");
+			sleep(2);
 			return NULL;
 		}
 	}

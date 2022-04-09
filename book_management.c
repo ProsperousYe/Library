@@ -82,49 +82,69 @@ int remove_book(BookList* booklist, Book* targetbook){
 }
 
 void find_book_by_title(Book* booklist, char title[40]){
-    Book* current = booklist->next;
+    Book* current = booklist->next->next;
+	int count = 0;
     printf("id\t\ttitle\t\tauthor\t\tyear\t\tcopies\n");
     while(current != NULL){
-        if(strcmp(current->title,title) == 1){
+        if(strcmp(current->title,title) != 0){
             current = current->next;
             continue;
         } else {
-        	printf("%d\t%s\t%s\t%d\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
+        	printf("%d\t\t%s\t\t%s\t\t%d\t\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
 		current = current->next;
+		count++;
             continue;
         }
     }
+	if(count == 0) printf("there is no book named as %s", title);
+	printf("please input any character to continue...");
+	//clear();
+	getchar();
+	clear();
 }
 
 void find_book_by_author(Book* booklist, char authors[40]){
-    Book* current = booklist->next;
+    Book* current = booklist->next->next;
+	int count = 0;
     printf("id\t\ttitle\t\tauthor\t\tyear\t\tcopies\n");
     while(current != NULL){
-        if(strcmp(current->authors,authors) == 1){
+        if(strcmp(current->authors,authors) != 0){
             current = current->next;
             continue;
         } else {
-        	printf("%d\t%s\t%s\t%d\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
+        	printf("%d\t\t%s\t%s\t\t%d\t\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
 		current = current->next;
+		count++;
             continue;
         }
     }
-
+	if(count == 0) printf("there is no book written by %s", authors);
+	printf("please input any character to continue...");
+	//clear();
+	getchar();
+	clear();
 }
 
 void find_book_by_year(Book* booklist, unsigned int year){
     Book* current = booklist->next;
+	int count = 0;
     printf("id\t\ttitle\t\tauthor\t\tyear\t\tcopies\n");
     while(current != NULL){
         if(current->year != year){
             current = current->next;
             continue;
         } else {
-        	printf("%d\t%s\t%s\t%d\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
+        	printf("%d\t\t%s\t\t%s\t\t%d\t\t%d\n",current->id, current->title, current->authors, current->year, current->copies);
 		current = current->next;
+		count++;
             continue;
         }
     }
+	if(count == 0) printf("there is no book published in %d", year);
+	printf("please input any character to continue...");
+	//clear();
+	getchar();
+	clear();
 }
 
 void clear()

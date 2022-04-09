@@ -108,19 +108,19 @@ while(1){
 						    add_a_book(booklist);
 						} else {
 						    borrow_a_book(currentuser, booklist, borrowedlist);
-						} break;
+						} continue;
 					    case 2:printf("loading...\n");
 						if(strcmp(currentuser->username, "admin") == 0){
 						    remove_a_book(booklist);
 						} else {
 						    return_a_book(currentuser, booklist, borrowedlist);
-						} break;
+						} continue;
 					    case 3:printf("loading...\n");
 							search_for_books(booklist);
-							break;
+							continue;
 					    case 4:printf("loading...\n");
 							display_all_books(booklist);
-							break;
+							continue;
 					    case 5: 
 							break;  
 					}
